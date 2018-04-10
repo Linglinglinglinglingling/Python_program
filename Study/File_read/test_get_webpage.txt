@@ -1,0 +1,6 @@
+<html>
+<body>
+  <h1>Guido Tack</h1>
+  <img src="images/guido3.jpg">
+</body>
+</html>

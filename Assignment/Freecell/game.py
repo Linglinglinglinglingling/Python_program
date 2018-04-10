@@ -1,0 +1,2 @@
+import notfreecell
+notfreecell.main()

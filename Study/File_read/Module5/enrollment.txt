@@ -1,0 +1,10 @@
+1 mathematics
+1 english
+2 programming
+3 mathematics
+3 physics
+4 mathematics
+4 chemistry
+4 literature
+5 english
+5 history
