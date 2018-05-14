@@ -1,4 +1,1 @@
-def x(x,y):
-    return x+y
-
-print(x(1,2))
+input("please give input")
