@@ -2,12 +2,12 @@
 class Stock_Server:
     def __init__(self):
         self.stockinfo = [
-            ["UGG Mallow Slippers", "Pink", "25$", 100],
-            ["UGG Mallow Slippers", "Pink", "20$", 80],
-            ["UGG Mallow Slippers", "Pink", "30$", 20],
-            ["UGG Mallow Slippers", "Grey", "25$", 100],
-            ["UGG Mallow Slippers", "Grey", "20$", 80],
-            ["UGG Mallow Slippers", "Grey", "30$", 20],
+            ["UGG Slippers", "Pink", "25$", 100],
+            ["UGG Slippers", "Pink", "20$", 80],
+            ["UGG Slippers", "Pink", "30$", 20],
+            ["UGG Slippers", "Grey", "25$", 100],
+            ["UGG Slippers", "Grey", "20$", 80],
+            ["UGG Slippers", "Grey", "30$", 20],
             ["UGG boots", "Black", "100$", 200],
             ["UGG boots", "Black", "90$", 270],
             ["UGG boots", "Black", "130$", 150],
@@ -35,7 +35,7 @@ class Stock_Server:
     def stock_query(self, index):
         highest_buy = 0
         highest_buy_item=[]
-        result = ''
+        result = ""
         # menu index starts from 1, therefore minus 1
         search_name = self.stock_menu()[index - 1][1:]
         for item in self.stockinfo:
@@ -54,9 +54,6 @@ class Stock_Server:
                 display_str += type + '\t'
             display_str += "\n"
         return display_str
-
-    def __contains__(self, item):
-        pass
 
 
 def main():

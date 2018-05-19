@@ -4,6 +4,7 @@ import threading
 import time
 
 
+
 #
 class Connection:
     def __init__(self):
@@ -38,30 +39,71 @@ class Connection:
     def show_query(self, index):
         red = "\033[31m"
         white = "\033[0m"
-        query_result = "\n" + red + "Here is the result" + "\t" + self.server.stock_query(index) \
-                       + "\n" + "\n" + white + self.show_menu()
+        query_result="\n" + red + "Here is the result:"+"\n"+"item name"+"\t"+"item color"+"\t"\
+                    + "price"+"\t"+"highest buy"+"\n"
+        index_list=index.strip().split()
+        for item in index_list:
+            if "t=" not in item and "d=" not in item:
+                query_result += red+self.server.stock_query(int(item)) \
+                                + "\n" + "\n" + white
+        query_result+=self.show_menu()
         return query_result
+
+    def show_update(self,index,times):
+        red = "\033[31m"
+        white = "\033[0m"
+        query_result = ''
+        index_list = index.strip().split()
+        for item in index_list:
+            if "t=" not in item and "d=" not in item:
+                query_result += "\n" + red + "Here is the update"+str(times)+"\t" + self.server.stock_query(int(item)) \
+                                + "\n" + "\n" + white+"\n"+"-------------------------"
+        return query_result
+
 
     def provide_service(self, connectionSocket, addr):
         while True:
-            chosen_index = ""
+            try:
+                chosen_index = ""
 
-            print("establish connection with " + str(addr))
-            # sentence = connectionSocket.recv(1024).decode()
-            connectionSocket.send(self.show_menu().encode())
-            while chosen_index != "q":
-                chosen_index = connectionSocket.recv(1024).decode()
-                if chosen_index != "q":
-                    connectionSocket.send(self.show_query(int(chosen_index)).encode())
-                else:
-                    connectionSocket.close()
-                    print("connection with " + str(addr) + " closed")
-                    return None
-    def __str__(self):
-        pass
+                print("establish connection with " + str(addr))
+                connectionSocket.send(self.show_menu().encode())
+                while chosen_index != "q":
+                    chosen_index = connectionSocket.recv(1024).decode()
 
-    def __contains__(self, item):
-        pass
+                    if chosen_index != "q":
+                        connectionSocket.send(self.show_query(chosen_index).encode())
+
+                        #Achieve the update function
+                        if "t=" in chosen_index and "d=" in chosen_index:
+                            argument_list=chosen_index.strip().split()
+                            for item in argument_list:
+                                if item[:2]=="t=":
+                                    interval=int(item[2:])
+                                if item[:2]=="d=":
+                                    duration=int(item[2:])
+                            update_times= duration//interval
+                            time.sleep(interval)
+                            for i in range(update_times):
+                                connectionSocket.send(self.show_update(chosen_index,i+1).encode())
+                                #the last time won't wait
+                                if i!=update_times-1:
+                                    time.sleep(interval)
+                            connectionSocket.send(self.show_menu().encode())
+
+                    else:
+                        connectionSocket.close()
+                        print("connection with " + str(addr) + " closed")
+                        return None
+            except:
+                connectionSocket.close()
+                print("connection with " + str(addr) + " closed")
+                return None
+
+
+
+
+
 
 
 def main():
