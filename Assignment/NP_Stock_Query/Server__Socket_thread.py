@@ -14,7 +14,7 @@ class Connection:
         # Create server socket
 
         self.serverSocket = socket(AF_INET, SOCK_STREAM)
-        # Associate the port number with the socket
+        # Associate the port number with the socket, and enable the socket can be reused
         self.serverSocket.setsockopt(SOL_SOCKET,SO_REUSEADDR,1)
         self.serverSocket.bind(('localhost', self.serverPort))
         # Maximum connection is 2
@@ -68,21 +68,6 @@ def main():
     a = Connection()
     a.listen()
 
-
-
-    # while True:
-    #     chosen_index = ""
-    #     connectionSocket, addr = serverSocket.accept()
-    #     print("establish connection with "+str(addr))
-    #     # sentence = connectionSocket.recv(1024).decode()
-    #     connectionSocket.send(new_connection.show_menu().encode())
-    #     while chosen_index!="q":
-    #         chosen_index=connectionSocket.recv(1024).decode()
-    #         if chosen_index!="q":
-    #             connectionSocket.send(new_connection.show_query(int(chosen_index)).encode())
-    #         else:
-    #             connectionSocket.close()
-    #             print("connection with "+str(addr)+" closed")
 
 
 if __name__ == '__main__':

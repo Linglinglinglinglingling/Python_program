@@ -16,13 +16,6 @@ class Stock_Server:
             ["UGG boots", "Red", "130$", 90],
         ]
 
-    # accessor
-    def get(self):
-        pass
-
-    # mutator
-    def set(self):
-        pass
 
     def stock_menu(self):
         menu_list = []
@@ -35,6 +28,8 @@ class Stock_Server:
         for item in menu_list:
             item.insert(0, str(index))
             index += 1
+
+        # return list like [[1,"UGG boots","Red"],]
         return menu_list
 
     def stock_query(self, index):
