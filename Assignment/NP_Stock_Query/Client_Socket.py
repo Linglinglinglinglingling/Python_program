@@ -43,7 +43,7 @@ clientSocket.connect((serverName,serverPort))
 menu = clientSocket.recv(2048)
 print(menu.decode())
 while chosen_index!="q":
-    # try:
+    try:
         if flag==True:
             argument_list = chosen_index.strip().split()
             for item in argument_list:
@@ -74,6 +74,6 @@ while chosen_index!="q":
         else:
             clientSocket.send(chosen_index.encode())
             clientSocket.close()
-    # except:
-    #         print("Connection is closed")
-    #         exit(1)
+    except:
+            print("Connection is closed")
+            exit(1)

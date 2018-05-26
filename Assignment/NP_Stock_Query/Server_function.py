@@ -64,5 +64,4 @@ if __name__ == '__main__':
     a = Stock_Server()
     menu = a.stock_menu()
     print(a)
-    # result=a.stock_query(4)
-    # print(result)
+

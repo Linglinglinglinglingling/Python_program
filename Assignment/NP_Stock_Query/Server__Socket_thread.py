@@ -1,5 +1,5 @@
 from socket import *
-from Assignment.NP_Stock_Query.Server_function import Stock_Server
+from Server_function import Stock_Server
 import threading
 import time
 
