@@ -44,19 +44,6 @@ menu = clientSocket.recv(2048)
 print(menu.decode())
 while chosen_index!="q":
     try:
-        if flag==True:
-            argument_list = chosen_index.strip().split()
-            for item in argument_list:
-                if item[:2] == "t=":
-                    interval = int(item[2:])
-                if item[:2] == "d=":
-                    duration = int(item[2:])
-            update_times = duration // interval
-            for i in range(update_times):
-                query_result = clientSocket.recv(2048).decode()
-                print(query_result)
-            flag=False
-
         valid = False
 
         while not valid:
@@ -64,10 +51,20 @@ while chosen_index!="q":
             valid=input_validation(chosen_index)
 
         if "t=" in chosen_index and "d=" in chosen_index:
-            flag=True
+            clientSocket.send(chosen_index.encode())
+            argument_list = chosen_index.strip().split()
+            for item in argument_list:
+                if item[:2] == "t=":
+                    interval = int(item[2:])
+                if item[:2] == "d=":
+                    duration = int(item[2:])
+            update_times = duration // interval
+            for i in range(update_times+1):
+                query_result = clientSocket.recv(2048).decode()
+                print(query_result)
 
 
-        if chosen_index!="q":
+        elif chosen_index!="q":
             clientSocket.send(chosen_index.encode())
             query_result = clientSocket.recv(2048).decode()
             print(query_result)
