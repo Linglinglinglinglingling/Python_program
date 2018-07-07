@@ -32,7 +32,7 @@ def input_validation(string):
 
 chosen_index=""
 flag=False
-serverName = '118.138.116.43'
+serverName = 'localhost'
 serverPort = 12000
 ## create client socket, first argument indicates IPv4, second argument means it is TCP socket
 clientSocket = socket(AF_INET, SOCK_STREAM)
@@ -52,7 +52,7 @@ while chosen_index!="q":
                 if item[:2] == "d=":
                     duration = int(item[2:])
             update_times = duration // interval
-            for i in range(update_times+1):
+            for i in range(update_times):
                 query_result = clientSocket.recv(2048).decode()
                 print(query_result)
             flag=False
@@ -65,6 +65,7 @@ while chosen_index!="q":
 
         if "t=" in chosen_index and "d=" in chosen_index:
             flag=True
+
 
         if chosen_index!="q":
             clientSocket.send(chosen_index.encode())

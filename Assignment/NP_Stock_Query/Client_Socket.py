@@ -3,7 +3,8 @@ from socket import *
 def input_validation(string):
     try:
         if len(string)==0:
-            print("please input the valid number"+"\n")
+            print("please input"
+                  " the valid number"+"\n")
             return False
         if "t=" in string and "d=" not in string:
             print("please input the valid number" + "\n")
@@ -52,7 +53,7 @@ while chosen_index!="q":
                 if item[:2] == "d=":
                     duration = int(item[2:])
             update_times = duration // interval
-            for i in range(update_times+1):
+            for i in range(update_times):
                 query_result = clientSocket.recv(2048).decode()
                 print(query_result)
             flag=False
@@ -65,6 +66,7 @@ while chosen_index!="q":
 
         if "t=" in chosen_index and "d=" in chosen_index:
             flag=True
+
 
         if chosen_index!="q":
             clientSocket.send(chosen_index.encode())

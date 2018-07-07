@@ -25,10 +25,9 @@ class Connection:
         print("The server is ready to receive")
         while True:
             connectionSocket, addr = self.serverSocket.accept()
-            try:
-                threading.Thread(target=self.provide_service, args=(connectionSocket, addr)).start()
-            except:
-                continue
+            #connectionSocket.settimeout(10)
+            threading.Thread(target=self.provide_service, args=(connectionSocket, addr)).start()
+
 
     def show_menu(self):
         menu_message = "Below is the stock menu, please choose the item number you would like to query" + "\n"
@@ -71,25 +70,26 @@ class Connection:
                 while chosen_index != "q":
                     chosen_index = connectionSocket.recv(1024).decode()
 
-                    if chosen_index != "q":
+                    #Achieve the update function
+                    if "t=" in chosen_index and "d=" in chosen_index:
+                        argument_list=chosen_index.strip().split()
+                        for item in argument_list:
+                            if item[:2]=="t=":
+                                interval=int(item[2:])
+                            if item[:2]=="d=":
+                                duration=int(item[2:])
+                        update_times= duration//interval
+                        #time.sleep(interval)
+                        for i in range(update_times):
+                            connectionSocket.send(self.show_update(chosen_index,i+1).encode())
+                            #the last time won't wait
+                            if i!=update_times-1:
+                                time.sleep(interval)
+                        connectionSocket.send(self.show_menu().encode())
+
+                    elif chosen_index != "q":
                         connectionSocket.send(self.show_query(chosen_index).encode())
 
-                        #Achieve the update function
-                        if "t=" in chosen_index and "d=" in chosen_index:
-                            argument_list=chosen_index.strip().split()
-                            for item in argument_list:
-                                if item[:2]=="t=":
-                                    interval=int(item[2:])
-                                if item[:2]=="d=":
-                                    duration=int(item[2:])
-                            update_times= duration//interval
-                            time.sleep(interval)
-                            for i in range(update_times):
-                                connectionSocket.send(self.show_update(chosen_index,i+1).encode())
-                                #the last time won't wait
-                                if i!=update_times-1:
-                                    time.sleep(interval)
-                            connectionSocket.send(self.show_menu().encode())
 
                     else:
                         connectionSocket.close()
