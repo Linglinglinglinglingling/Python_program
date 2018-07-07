@@ -1,2 +1,3 @@
-a='t=10'
-print("t" in a)
+print(1, end="")
+print(3)
+a = 5
